@@ -1,0 +1,83 @@
+/* styles.css */
+
+.sessions-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.refresh_button {
+  background: none;
+  border: none;
+  font-size: 40px;
+  color: white;
+}
+
+#filterInput {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-left: 5px;
+}
+
+.filter-button, .reset-filter-button {
+  padding: 3px 15px;
+  margin-left: 5px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #b36cb9;
+}
+
+.sessions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-header,
+.table-cell {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #000000;
+}
+
+.table-header {
+  background-color: #3d3d3d;
+  font-weight: bold;
+}
+
+.table-row:hover {
+  background-color: #505050;
+}
+
+/* Применяем границу для всех ячеек в последнем столбце */
+.table-cell:last-child {
+  border-right: 1px solid #000000;
+}
+
+.download-button {
+  display: block;
+  margin: auto;
+  border-radius: 8px;
+  background-color: #b36cb9;
+  border: 1px solid black;
+  padding: 5px 15px;
+}
+
+.pagination-container {
+  max-width: 100px;
+  display: flex;
+  padding: 20px;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.pagination-page-button {
+  padding: 3px 15px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+
+
+

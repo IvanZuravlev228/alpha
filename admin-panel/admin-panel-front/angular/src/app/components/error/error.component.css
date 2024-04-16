@@ -1,0 +1,73 @@
+.main-container {
+  width: 650px;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
+}
+
+.header-404 {
+  color: white;
+  font-size: 100px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.not_found {
+
+}
+
+.not_found_text {
+  font-size: 50px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.sec_container {
+  margin-top: 30px;
+}
+
+.sec_container_text {
+  font-size: 25px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Замените цвет фона на необходимый вам */
+  color: white; /* Замените цвет текста на необходимый вам */
+  padding: 10px;
+}
+
+.footer_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#password {
+  background-color: #333;
+  border: 1px solid #333;
+  color: #333;
+}
+
+#password:hover {
+  border: none;
+  cursor: default;
+}
+
+#password:focus {
+  border: none;
+  outline: none;
+}
+
+#but {
+  color: #333;
+  background-color: #333;
+  border: 1px solid #333;
+}
+

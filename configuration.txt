@@ -1,0 +1,153 @@
+apache
+
+<VirtualHost 127.0.0.1:8080>
+	ServerName clarifex.ru
+	DocumentRoot /var/www/www-root/data/www/clarifex.ru
+	ServerAdmin webmaster@clarifex.ru
+	AddDefaultCharset off
+	AssignUserID www-root www-root
+	CustomLog /var/www/httpd-logs/clarifex.ru.access.log combined
+	ErrorLog /var/www/httpd-logs/clarifex.ru.error.log
+	IncludeOptional /etc/apache2/modules-includes/python/*.conf
+	ScriptAlias /python-bin/ /var/www/python-bin-isp-python3.11/www-root/clarifex.ru/
+	AddHandler application/x-httpd-python .py
+	Action application/x-httpd-python /python-bin/python
+	<FilesMatch "\.py$">
+		SetHandler application/x-httpd-python
+	</FilesMatch>
+	SetEnvIf X-Forwarded-Proto https HTTPS=on
+	ServerAlias www.clarifex.ru
+	DirectoryIndex index.php index.html
+</VirtualHost>
+<Directory /var/www/www-root/data/www/clarifex.ru>
+	Options +Includes -ExecCGI
+</Directory>
+
+
+
+nginx
+
+
+server {
+	server_name clarifex.ru www.clarifex.ru;
+	charset off;
+	index index.php index.html;
+	disable_symlinks if_not_owner from=$root_path;
+	include /etc/nginx/vhosts-includes/*.conf;
+	include /etc/nginx/vhosts-resources/clarifex.ru/*.conf;
+	access_log /var/www/httpd-logs/clarifex.ru.access.log;
+	error_log /var/www/httpd-logs/clarifex.ru.error.log notice;
+	ssi on;
+	set $root_path /var/www/www-root/data/www/clarifex.ru;
+	root $root_path;
+	gzip on;
+	gzip_comp_level 5;
+	gzip_disable "msie6";
+	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+	location / {
+		location ~* ^.+\.(jpg|jpeg|gif|png|svg|css|mp3|ogg|mpe?g|avi|zip|gz|bz2?|rar|swf|webp|woff|woff2)$ {
+			expires 24h;
+			try_files $uri $uri/ @fallback;
+		}
+		location / {
+			try_files /does_not_exists @fallback;
+		}
+	}
+	location @fallback {
+		include /etc/nginx/vhosts-resources/clarifex.ru/dynamic/*.conf;
+		proxy_pass http://127.0.0.1:8080;
+		proxy_redirect http://127.0.0.1:8080 /;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Forwarded-Port $server_port;
+		access_log off;
+	}
+	return 301 https://$host:443$request_uri;
+	
+	location /auth {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /success {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /phone_form {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /s/ {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /sp/ {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+	listen 185.65.105.40:80;
+}
+server {
+	server_name clarifex.ru www.clarifex.ru;
+	ssl_certificate "/var/www/httpd-cert/www-root/www.clarifex.ru_custom_1.crtca";
+	ssl_certificate_key "/var/www/httpd-cert/www-root/www.clarifex.ru_custom_1.key";
+	ssl_ciphers EECDH:+AES256:-3DES:RSA+AES:!NULL:!RC4;
+	ssl_prefer_server_ciphers on;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+	add_header Strict-Transport-Security "max-age=31536000;";
+	ssl_dhparam /etc/ssl/certs/dhparam4096.pem;
+	charset off;
+	index index.php index.html;
+	disable_symlinks if_not_owner from=$root_path;
+	include /etc/nginx/vhosts-includes/*.conf;
+	include /etc/nginx/vhosts-resources/clarifex.ru/*.conf;
+	access_log /var/www/httpd-logs/clarifex.ru.access.log;
+	error_log /var/www/httpd-logs/clarifex.ru.error.log notice;
+	ssi on;
+	set $root_path /var/www/www-root/data/www/clarifex.ru;
+	root $root_path;
+	listen 185.65.105.40:443 ssl;
+	gzip on;
+	gzip_comp_level 5;
+	gzip_disable "msie6";
+	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+	location / {
+		location ~* ^.+\.(jpg|jpeg|gif|png|svg|css|mp3|ogg|mpe?g|avi|zip|gz|bz2?|rar|swf|webp|woff|woff2)$ {
+			expires 24h;
+			try_files $uri $uri/ @fallback;
+		}
+		location / {
+			try_files /does_not_exists @fallback;
+		}
+	}
+	location @fallback {
+		include /etc/nginx/vhosts-resources/clarifex.ru/dynamic/*.conf;
+		proxy_pass http://127.0.0.1:8080;
+		proxy_redirect http://127.0.0.1:8080 /;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Forwarded-Port $server_port;
+		access_log off;
+	}
+	location /auth {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /success {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /phone_form {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /s/ {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+    location /sp/ {
+        proxy_pass http://127.0.0.1:5000;
+        # ... остальные настройки прокси, если нужны
+    }
+}

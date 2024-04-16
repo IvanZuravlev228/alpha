@@ -1,0 +1,4 @@
+aiogram: pip install --force-reinstall -v "aiogram==2.23.1"
+
+
+db.users.updateOne({ login:'alpha13'}, { $set:{ role:'FISHER'}})
